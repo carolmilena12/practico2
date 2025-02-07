@@ -1,20 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fromulario de registro</title>
+    <title>Formulario de registro</title>
     {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/styles.css' %}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
+    
     <div class="form-container">
         <h1>Registro de Usuario</h1>
-        <form method="post" action="{% url 'registro' %}" autocomplete="off">
+        <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Regsitrar</button>
+            <div class="form-group">
+                <label for="id_nombre_usuario">Nombre de usuario</label>
+                {{form.nombre_usuario}}
+            </div>
+            <div class="form-group">
+                <label for="id_email">Correo Electronico</label>
+                {{form.email}}
+            </div>
+            <div class="form-group">
+                <label for="id_contrasena">Contraseña</label>
+                {{form.contrasena}}
+            </div>
+            <div class="form-group">
+                <label for="id_contrasena_confirmar">Confirmar Contraseña</label>
+                {{form.contrasena_confirmar}}
+            </div>
+        <div class="form-group">
+            <label for="id_fech_nacimiento"> Fecha de Nacimiento</label>
+            {{form.fecha_nacimiento}}
+        </div>
+        <button type="submit">Registrar</button>
+
         </form>
         
+        {% if form.errors %}
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                    <li>
+                        {{error}}
+                    </li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
+    <script>
+        $(document).ready(function(){
+            $(".datepicker").datepicker({
+                dateFormat: "yy-mm-dd",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1900:2025"
+            });
+        });
+    </script>
 </body>
 </html>

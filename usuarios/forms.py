@@ -5,6 +5,7 @@ class RegistroUsuariosForm(forms.Form):
     email=forms.EmailField( widget=forms.EmailInput(attrs={'autocomplete': 'off'}))
     contrasena=forms.CharField(widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}))
     contrasena_confirmar=forms.CharField(widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}))
+    fecha_nacimiento=forms.DateField(widget = forms.TextInput(attrs= {'class': 'datepicker'}))
 
     def clean_nombre_usuario(self):
         nombre_usuario = self.cleaned_data.get('nombre_usuario')
@@ -20,7 +21,7 @@ class RegistroUsuariosForm(forms.Form):
     
     def clean_contrasena(self):
         contrasena=self.cleaned_data.get('contrasena')
-        if len(contrasena)<8:
+        if len(contrasena)<6:
             raise forms.ValidationError("La contraseña debe tener al menos 8 caracteres")
         return contrasena
         
